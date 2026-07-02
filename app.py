@@ -194,7 +194,15 @@ def main():
                 
                 # 5. 차트 시각화
                 fig = create_stock_chart(df, current_ticker)
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(
+                    fig,
+                    use_container_width=True,
+                    config={
+                        'responsive': True,
+                        'displayModeBar': False,   # 모바일에서 툴바 숨김 (화면 공간 확보)
+                        'scrollZoom': False,
+                    }
+                )
                 
                 # 6. 데이터 테이블 및 다운로드
                 st.subheader("📋 분석 데이터 리스트")
