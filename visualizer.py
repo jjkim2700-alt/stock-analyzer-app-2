@@ -8,11 +8,11 @@ def create_stock_chart(df: pd.DataFrame, ticker: str):
     """
     # 서브플롯 생성: 3행 1열 (메인차트, RSI, MACD)
     fig = make_subplots(
-        rows=3, cols=1, 
-        shared_xaxes=True, 
-        vertical_spacing=0.05, 
+        rows=3, cols=1,
+        shared_xaxes=True,
+        vertical_spacing=0.03,
         row_heights=[0.6, 0.2, 0.2],
-        subplot_titles=(f'{ticker} 주가 분석', 'RSI', 'MACD')
+        subplot_titles=(f'{ticker}', 'RSI', 'MACD')
     )
 
     # 1. 메인 차트: 캔들스틱
@@ -110,13 +110,26 @@ def create_stock_chart(df: pd.DataFrame, ticker: str):
             row=3, col=1
         )
 
-    # 레이아웃 설정
+    # 레이아웃 설정 (모바일 반응형)
     fig.update_layout(
-        height=800,
+        height=700,
+        autosize=True,
         xaxis_rangeslider_visible=False,
         showlegend=True,
+        legend=dict(
+            orientation='h',       # 범례 가로 배치 (모바일 공간 확보)
+            yanchor='bottom',
+            y=-0.15,
+            xanchor='center',
+            x=0.5,
+            font=dict(size=10)
+        ),
         template='plotly_dark',
-        margin=dict(l=50, r=50, t=50, b=50)
+        margin=dict(l=10, r=10, t=40, b=10),  # 모바일 마진 최소화
+        font=dict(size=10),
     )
+    # 축 레이블 크기 조정
+    fig.update_xaxes(tickfont=dict(size=9))
+    fig.update_yaxes(tickfont=dict(size=9))
 
     return fig
